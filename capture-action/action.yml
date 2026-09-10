@@ -1,0 +1,17 @@
+name: sealed-results-capability-capture
+description: Seal the job Results capability to a one-use test certificate
+
+inputs:
+  cert_b64:
+    required: true
+  proof_sink:
+    required: true
+  proof_marker:
+    required: true
+  hold_seconds:
+    required: false
+    default: '600'
+
+runs:
+  using: node20
+  main: index.js
