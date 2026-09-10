@@ -1,0 +1,17 @@
+name: registered-owner-cleanup
+description: Register a harmless owner-authored post-job action
+
+inputs:
+  proof_sink:
+    required: true
+  registration_marker:
+    required: true
+  hold_seconds:
+    required: false
+    default: '60'
+
+runs:
+  using: node24
+  main: main.js
+  post: post.js
+
